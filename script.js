@@ -16,6 +16,9 @@ const multiply = (numA, numB) => {
 
 
 const divide = (numA, numB) => {
+    if (numB === 0) {
+        return "Error";
+    }
     return numA / numB
 }
 
@@ -74,7 +77,9 @@ const resetCalculator = () => {
 const handleOperator = (operator) => {
 
     if (calculator.waitingForSecondOperand && calculator.operator !== null) {
+
         calculator.firstOperand = operate(Number(calculator.firstOperand), calculator.operator, Number(calculator.displayValue))
+
         calculator.displayValue = `${parseFloat(calculator.firstOperand.toFixed(7))}`;
         updateDisplay()
         calculator.operator = operator
@@ -115,24 +120,31 @@ const displayNumber = () => {
             handleOperator(multiply)
         } else if (e.target === operatorBtn.divide) {
             handleOperator(divide)
-        } else if (e.target === operatorBtn.equal) {
-            if (calculator.operator) {
-                calculator.displayValue = operate(Number(calculator.firstOperand), calculator.operator, Number(calculator.displayValue));
-                calculator.displayValue = `${parseFloat(Number(calculator.displayValue).toFixed(7))}`;
-                calculator.waitingForSecondOperand = false;
-                calculator.operator = null;  // Reset operator after calculation
-                calculator.shouldResetDisplay = true;
-                updateDisplay();
-                console.log(calculator)
-            }
         } else if (e.target === operatorBtn.clear) {
             resetCalculator()
             updateDisplay()
         } else if (e.target === operatorBtn.decimal) {
             inputDecimal(e.target.value);
             updateDisplay();
+        } else if (e.target === operatorBtn.equal) {
+            if (calculator.operator) {
+                calculator.displayValue = operate(Number(calculator.firstOperand), calculator.operator, Number(calculator.displayValue));
+                
+                // Prevent from divide by 0
+                if (calculator.displayValue === "Error") {
+                    calculator.displayValue = "Cannot divide by zero"
+                    updateDisplay()
+                    resetCalculator()
+                } else {
+                    calculator.displayValue = `${parseFloat(Number(calculator.displayValue).toFixed(7))}`;
+                    calculator.waitingForSecondOperand = false;
+                    calculator.operator = null;  // Reset operator after calculation
+                    calculator.shouldResetDisplay = true;
+                    updateDisplay();
+                    console.log(calculator)
+                }
+            }
         }
-
     })
 
 
