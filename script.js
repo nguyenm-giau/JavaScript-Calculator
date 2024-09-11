@@ -1,5 +1,3 @@
-const btnContainer = document.querySelector(".btn-container")
-
 const add = (numA, numB) => {
     return numA + numB
 }
@@ -27,6 +25,7 @@ const operate = (firstNumber, operator, secondNumber) => {
     return operator(firstNumber, secondNumber)
 }
 
+
 const operatorBtn = {
     add: document.querySelector(".add-btn"),
     sub: document.querySelector(".sub-btn"),
@@ -34,7 +33,8 @@ const operatorBtn = {
     divide: document.querySelector(".divide-btn"),
     equal: document.querySelector(".equal-btn"),
     clear: document.querySelector(".clear-btn"),
-    decimal: document.querySelector(".decimal-btn")
+    decimal: document.querySelector(".decimal-btn"),
+    backspace: document.querySelector(".backspace-btn")
 }
 
 
@@ -46,10 +46,11 @@ const calculator = {
     shouldResetDisplay: false,
 }
 
+
 const inputDecimal = (dot) => {
         if (calculator.shouldResetDisplay) {
-        calculator.displayValue = "0"; // Reset the display to "0."
-        calculator.shouldResetDisplay = false; // Reset the flag
+        calculator.displayValue = "0";
+        calculator.shouldResetDisplay = false; 
     }
 
     if (!calculator.displayValue.includes(dot)) {
@@ -95,6 +96,7 @@ const handleOperator = (operator) => {
 }
 
 const displayNumber = () => {
+    const btnContainer = document.querySelector(".btn-container")
     btnContainer.addEventListener("click", (e) => {
         if (e.target.classList.contains("num-btn")) {
             if (calculator.shouldResetDisplay) {
@@ -138,16 +140,27 @@ const displayNumber = () => {
                 } else {
                     calculator.displayValue = `${parseFloat(Number(calculator.displayValue).toFixed(7))}`;
                     calculator.waitingForSecondOperand = false;
-                    calculator.operator = null;  // Reset operator after calculation
+                    calculator.operator = null;
                     calculator.shouldResetDisplay = true;
                     updateDisplay();
                     console.log(calculator)
                 }
+            } else if (!calculator.waitingForSecondOperand) {
+                calculator.shouldResetDisplay = true
             }
+        } else if (e.target === operatorBtn.backspace) {
+            if (!calculator.shouldResetDisplay) {
+                if (calculator.displayValue.length === 1) {
+                    calculator.displayValue = "0"
+                    updateDisplay()
+                } else if (calculator.displayValue.length > 1) {
+                    calculator.displayValue = calculator.displayValue.slice(0, -1)
+                    updateDisplay()
+                }
+            }
+
         }
     })
-
-
 }
 
 displayNumber()
