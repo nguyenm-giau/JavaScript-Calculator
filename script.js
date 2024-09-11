@@ -9,7 +9,7 @@ const multiply = (numA, numB) => numA * numB
 
 const divide = (numA, numB) => {
     if (numB === 0) {
-        return "Error";
+        return "Cannot divide by zero"
     }
     return numA / numB
 }
@@ -43,12 +43,12 @@ const calculator = {
 
 const inputDecimal = (dot) => {
     if (calculator.shouldResetDisplay) {
-        calculator.displayValue = "0";
-        calculator.shouldResetDisplay = false; 
+        calculator.displayValue = "0"
+        calculator.shouldResetDisplay = false
     }
 
     if (!calculator.displayValue.includes(dot)) {
-        calculator.displayValue += dot;
+        calculator.displayValue += dot
     }
 }
 
@@ -69,16 +69,21 @@ const resetCalculator = () => {
 
 
 const handleOperator = (operator) => {
-
     if (calculator.waitingForSecondOperand && calculator.operator !== null) {
-
         calculator.firstOperand = operate(Number(calculator.firstOperand), calculator.operator, Number(calculator.displayValue))
 
-        calculator.displayValue = `${parseFloat(calculator.firstOperand.toFixed(7))}`;
+        // Handle division by zero
+        if (typeof calculator.firstOperand === "string") {
+            calculator.displayValue = "Cannot divide by zero"
+            updateDisplay();
+            resetCalculator();
+            return;
+        }
+
+        calculator.displayValue = `${parseFloat(calculator.firstOperand.toFixed(7))}`
         updateDisplay()
         calculator.operator = operator
         calculator.displayValue = "0"
-
     } else {
         calculator.operator = operator
         calculator.firstOperand = calculator.displayValue
@@ -86,6 +91,7 @@ const handleOperator = (operator) => {
         updateDisplay()
         calculator.waitingForSecondOperand = true
     }
+
 }
 
 
@@ -108,17 +114,15 @@ const handleEqualsInput = () => {
         calculator.displayValue = operate(Number(calculator.firstOperand), calculator.operator, Number(calculator.displayValue));
         
         // Prevent from divide by 0
-        if (calculator.displayValue === "Error") {
-            calculator.displayValue = "Cannot divide by zero"
+        if (calculator.displayValue === "Cannot divide by zero") {
             updateDisplay()
             resetCalculator()
         } else {
-            calculator.displayValue = `${parseFloat(Number(calculator.displayValue).toFixed(7))}`;
+            calculator.displayValue = `${parseFloat(Number(calculator.displayValue).toFixed(7))}`
             calculator.waitingForSecondOperand = false;
             calculator.operator = null;
             calculator.shouldResetDisplay = true;
-            updateDisplay();
-            console.log(calculator)
+            updateDisplay()
         }
     } else if (!calculator.waitingForSecondOperand) {
         calculator.shouldResetDisplay = true
@@ -145,7 +149,7 @@ const setupCalculatorEventListeners = () => {
 
         if (target.classList.contains("num-btn")) {
             handleNumberInput(target.value)
-            updateDisplay();
+            updateDisplay()
             return
         }
 
