@@ -75,9 +75,9 @@ const handleOperator = (operator) => {
         // Handle division by zero
         if (typeof calculator.firstOperand === "string") {
             calculator.displayValue = "Cannot divide by zero"
-            updateDisplay();
-            resetCalculator();
-            return;
+            updateDisplay()
+            resetCalculator()
+            return
         }
 
         calculator.displayValue = `${parseFloat(calculator.firstOperand.toFixed(7))}`
@@ -97,13 +97,13 @@ const handleOperator = (operator) => {
 
 const handleNumberInput = (inputValue) => {
     if (calculator.shouldResetDisplay) {
-        calculator.displayValue = inputValue; // Reset display with the new number
-        calculator.shouldResetDisplay = false; // Reset the flag
+        calculator.displayValue = inputValue // Reset display with the new number
+        calculator.shouldResetDisplay = false // Reset the flag
     } else {
         if (calculator.displayValue === "0") {
-            calculator.displayValue = inputValue;
+            calculator.displayValue = inputValue
         } else {
-            calculator.displayValue += inputValue;
+            calculator.displayValue += inputValue
         }
     }
 }
@@ -111,7 +111,7 @@ const handleNumberInput = (inputValue) => {
 
 const handleEqualsInput = () => {
     if (calculator.operator) {
-        calculator.displayValue = operate(Number(calculator.firstOperand), calculator.operator, Number(calculator.displayValue));
+        calculator.displayValue = operate(Number(calculator.firstOperand), calculator.operator, Number(calculator.displayValue))
         
         // Prevent from divide by 0
         if (calculator.displayValue === "Cannot divide by zero") {
@@ -119,9 +119,9 @@ const handleEqualsInput = () => {
             resetCalculator()
         } else {
             calculator.displayValue = `${parseFloat(Number(calculator.displayValue).toFixed(7))}`
-            calculator.waitingForSecondOperand = false;
-            calculator.operator = null;
-            calculator.shouldResetDisplay = true;
+            calculator.waitingForSecondOperand = false
+            calculator.operator = null
+            calculator.shouldResetDisplay = true
             updateDisplay()
         }
     } else if (!calculator.waitingForSecondOperand) {
@@ -141,6 +141,32 @@ const handleBackspace = () => {
 }
 
 
+const handleInput = (input) => {
+    if (!isNaN(input)) {
+        handleNumberInput(input)
+    } else if (input === "Backspace" || input === "delete") {
+        handleBackspace()
+        updateDisplay()
+    } else if (input === "Enter" || input === "=") {
+        handleEqualsInput()
+    } else if (input === "." || input === ",") {
+        inputDecimal(".")
+        updateDisplay()
+    } else if (input === "+") {
+        handleOperator(add)
+    } else if (input === "-") {
+        handleOperator(subtract)
+    } else if (input === "*" || input === "x") {
+        handleOperator(multiply)
+    } else if (input === "/") {
+        handleOperator(divide)
+    } else if (input === "Escape" || input === "reset") {
+        resetCalculator()
+        updateDisplay()
+    }
+}
+
+
 const setupCalculatorEventListeners = () => {
     const btnContainer = document.querySelector(".btn-container")
 
@@ -148,43 +174,20 @@ const setupCalculatorEventListeners = () => {
         const target = e.target
 
         if (target.classList.contains("num-btn")) {
-            handleNumberInput(target.value)
+            handleInput(target.value)
             updateDisplay()
-            return
-        }
-
-        switch(target) {
-            case operatorBtn.add:
-                handleOperator(add)
-                break
-            case operatorBtn.sub:
-                handleOperator(subtract)
-                break
-            case operatorBtn.multiply:
-                handleOperator(multiply)
-                break
-            case operatorBtn.divide:
-                handleOperator(divide)
-                break
-            case operatorBtn.clear:
-                resetCalculator()
-                updateDisplay()
-                break
-            case operatorBtn.decimal:
-                inputDecimal(target.value)
-                updateDisplay()
-                break
-            case operatorBtn.equal:
-                handleEqualsInput()
-                break
-            case operatorBtn.backspace:
-                handleBackspace()
-                updateDisplay()                         
+        } else {
+            handleInput(target.dataset.operator)
         }
     })
 
-}
 
+    document.addEventListener("keydown", (event) => {
+        handleInput(event.key)
+        updateDisplay()
+    })
+
+}
 
 setupCalculatorEventListeners()
 
