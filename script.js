@@ -28,7 +28,7 @@ const operatorBtn = {
     equal: document.querySelector(".equal-btn"),
     clear: document.querySelector(".clear-btn"),
     decimal: document.querySelector(".decimal-btn"),
-    backspace: document.querySelector(".backspace-btn")
+    backspace: document.querySelector(".backspace-btn"),
 }
 
 
@@ -70,6 +70,7 @@ const resetCalculator = () => {
 
 const handleOperator = (operator) => {
     if (calculator.waitingForSecondOperand && calculator.operator !== null) {
+
         calculator.firstOperand = operate(Number(calculator.firstOperand), calculator.operator, Number(calculator.displayValue))
 
         // Handle division by zero
@@ -98,7 +99,7 @@ const handleOperator = (operator) => {
 const handleNumberInput = (inputValue) => {
     if (calculator.shouldResetDisplay) {
         calculator.displayValue = inputValue // Reset display with the new number
-        calculator.shouldResetDisplay = false // Reset the flag
+        calculator.shouldResetDisplay = false
     } else {
         if (calculator.displayValue === "0") {
             calculator.displayValue = inputValue
@@ -144,7 +145,7 @@ const handleBackspace = () => {
 const handleInput = (input) => {
     if (!isNaN(input)) {
         handleNumberInput(input)
-    } else if (input === "Backspace" || input === "delete") {
+    } else if (input === "Backspace" || input === "backspace") {
         handleBackspace()
         updateDisplay()
     } else if (input === "Enter" || input === "=") {
@@ -168,17 +169,21 @@ const handleInput = (input) => {
 
 
 const setupCalculatorEventListeners = () => {
-    const btnContainer = document.querySelector(".btn-container")
+    const btnContainer = document.querySelector(".cal-container")
 
     btnContainer.addEventListener("click", (e) => {
-        const target = e.target
+        const target = e.target.closest("button")  // Find the closest button
+
+        if (!target) return  // Exit if no button is clicked
 
         if (target.classList.contains("num-btn")) {
             handleInput(target.value)
             updateDisplay()
         } else {
             handleInput(target.dataset.operator)
+            console.log(target.dataset.operator)
         }
+        e.target.blur()
     })
 
 
