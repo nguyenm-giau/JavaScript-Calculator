@@ -62,6 +62,7 @@ const updateDisplay = () => {
 
 
 const displayOperand = (operate) => {
+    if (operate === ".") return
     const displayOperation = document.querySelector(".operate-display")
 
     if (operate === "reset") {
@@ -73,7 +74,6 @@ const displayOperand = (operate) => {
         displayOperation.textContent +=  ` ${operate} `
     }
 }
-
 
 
 const resetCalculator = () => {
@@ -188,7 +188,6 @@ const handleInput = (input) => {
 }
 
 
-
 const resetButtonStyle = (button) => {
     if (button.id === "equal-btn") {
         button.style.backgroundColor = "#043f64"
@@ -200,7 +199,6 @@ const resetButtonStyle = (button) => {
         button.style.background = "#FEDA6A"
     }
 }
-
 
 
 const keyMap = {
