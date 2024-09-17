@@ -139,7 +139,7 @@ main {
 
 .left-btn-container button:hover {
     cursor: pointer;
-    background-color: #1D1E22;
+    background-color: #1D1E22 !important;;
 }
 
 #equal-btn {
@@ -155,6 +155,14 @@ main {
 
 #reset-btn {
     grid-area: f;
+}
+
+.pressed-left {
+    background-color: lightblue !important;  /* Color for left-btn-container buttons */
+  }
+  
+.pressed-right {
+    background-color: rgb(255, 0, 0); /* Color for right-btn-container buttons */
 }
 
 .right-btn-container {
@@ -180,7 +188,7 @@ main {
 
 .right-btn-container button:hover {
     cursor: pointer;
-    background-color: #e7c356;
+    background-color: #e7c356 !important;;
 }
 
 

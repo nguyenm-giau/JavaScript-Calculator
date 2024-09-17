@@ -56,7 +56,24 @@ const inputDecimal = (dot) => {
 const updateDisplay = () => {
     const display = document.querySelector(".cal-display")
     display.textContent = calculator.displayValue
+    
+
 }
+
+
+const displayOperand = (operate) => {
+    const displayOperation = document.querySelector(".operate-display")
+
+    if (operate === "reset") {
+        displayOperation.textContent = ""
+    }
+
+    if (calculator.waitingForSecondOperand && operate !== "backspace") {
+        displayOperation.textContent = `${calculator.firstOperand}`
+        displayOperation.textContent +=  ` ${operate} `
+    }
+}
+
 
 
 const resetCalculator = () => {
@@ -65,6 +82,7 @@ const resetCalculator = () => {
     calculator.operator = null
     calculator.waitingForSecondOperand = false
     calculator.shouldResetDisplay = false
+    displayOperand("reset")
 }
 
 
@@ -78,9 +96,8 @@ const handleOperator = (operator) => {
             calculator.displayValue = "Cannot divide by zero"
             updateDisplay()
             resetCalculator()
-            return
+            return;
         }
-
         calculator.displayValue = `${parseFloat(calculator.firstOperand.toFixed(7))}`
         updateDisplay()
         calculator.operator = operator
@@ -97,6 +114,7 @@ const handleOperator = (operator) => {
 
 
 const handleNumberInput = (inputValue) => {
+ 
     if (calculator.shouldResetDisplay) {
         calculator.displayValue = inputValue // Reset display with the new number
         calculator.shouldResetDisplay = false
@@ -112,12 +130,14 @@ const handleNumberInput = (inputValue) => {
 
 const handleEqualsInput = () => {
     if (calculator.operator) {
+        document.querySelector(".operate-display").textContent += `${calculator.displayValue} =`
+
         calculator.displayValue = operate(Number(calculator.firstOperand), calculator.operator, Number(calculator.displayValue))
-        
         // Prevent from divide by 0
         if (calculator.displayValue === "Cannot divide by zero") {
             updateDisplay()
             resetCalculator()
+            return;
         } else {
             calculator.displayValue = `${parseFloat(Number(calculator.displayValue).toFixed(7))}`
             calculator.waitingForSecondOperand = false
@@ -168,6 +188,49 @@ const handleInput = (input) => {
 }
 
 
+
+const resetButtonStyle = (button) => {
+    if (button.id === "equal-btn") {
+        button.style.backgroundColor = "#043f64"
+    } else if (button.classList.contains("num-btn")
+         || button.id === "reset-btn"
+         || button.id === "decimal") {
+        button.style.backgroundColor = "#393F4D"
+    } else {
+        button.style.background = "#FEDA6A"
+    }
+}
+
+
+
+const keyMap = {
+    "Enter": "=",
+    "x": "*",
+    "*": "*",
+    "-": "-",
+    "+": "+",
+    ",": ".",
+    "/": "/",
+    "%": "/",
+    "Backspace": "backspace",
+    "Escape": "reset"
+};
+
+
+const applyPressStyle = (key) => {
+    key = keyMap[key] || key
+
+    if (key === "=" || key === "reset" || !isNaN(key) || key === ".") {
+        document.querySelector(`button[value="${key}"]`).style.backgroundColor = "#1D1E22"
+    } else {
+        const button = document.querySelector(`button[data-operator="${key}"]`)
+        if (button) {
+            button.style.background = "#e7c356"
+        }
+    }
+}
+
+
 const setupCalculatorEventListeners = () => {
     const btnContainer = document.querySelector(".cal-container")
 
@@ -181,15 +244,32 @@ const setupCalculatorEventListeners = () => {
             updateDisplay()
         } else {
             handleInput(target.dataset.operator)
-            console.log(target.dataset.operator)
+            displayOperand(target.dataset.operator)
+
         }
         e.target.blur()
     })
 
-
     document.addEventListener("keydown", (event) => {
+        if (event.code === "Space") {
+           return
+        }
+  
         handleInput(event.key)
         updateDisplay()
+        applyPressStyle(event.key)
+
+        if (keyMap[event.key]) {
+            displayOperand(keyMap[event.key])
+        }
+
+    })
+
+    document.addEventListener("keyup", () => {
+        Array.from(document.getElementsByTagName("button"))
+            .forEach(b => {
+                resetButtonStyle(b)
+            })
     })
 
 }
