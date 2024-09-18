@@ -55,9 +55,12 @@ const inputDecimal = (dot) => {
 
 const updateDisplay = () => {
     const display = document.querySelector(".cal-display")
-    display.textContent = calculator.displayValue
-    
 
+    if (calculator.displayValue === "Cannot divide by zero") {
+        display.textContent = calculator.displayValue
+    } else {
+        display.textContent =  addCommasToNumbers(calculator.displayValue)
+    }
 }
 
 
@@ -70,7 +73,7 @@ const displayOperand = (operate) => {
     }
 
     if (calculator.waitingForSecondOperand && operate !== "backspace") {
-        displayOperation.textContent = `${calculator.firstOperand}`
+        displayOperation.textContent = `${addCommasToNumbers(calculator.firstOperand)}`
         displayOperation.textContent +=  ` ${operate} `
     }
 }
@@ -106,14 +109,22 @@ const handleOperator = (operator) => {
         calculator.operator = operator
         calculator.firstOperand = calculator.displayValue
         calculator.displayValue = "0"
-        updateDisplay()
+        calculator.shouldResetDisplay = true
         calculator.waitingForSecondOperand = true
     }
 
 }
 
 
+const addCommasToNumbers = (number) => {
+    var parts = number.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
+
+
 const handleNumberInput = (inputValue) => {
+    const maxDisplayLength = 16
  
     if (calculator.shouldResetDisplay) {
         calculator.displayValue = inputValue // Reset display with the new number
@@ -121,7 +132,7 @@ const handleNumberInput = (inputValue) => {
     } else {
         if (calculator.displayValue === "0") {
             calculator.displayValue = inputValue
-        } else {
+        } else if (calculator.displayValue.length < maxDisplayLength) {
             calculator.displayValue += inputValue
         }
     }
@@ -130,15 +141,17 @@ const handleNumberInput = (inputValue) => {
 
 const handleEqualsInput = () => {
     if (calculator.operator) {
-        document.querySelector(".operate-display").textContent += `${calculator.displayValue} =`
+        document.querySelector(".operate-display").textContent += `${addCommasToNumbers(calculator.displayValue)} =`
 
         calculator.displayValue = operate(Number(calculator.firstOperand), calculator.operator, Number(calculator.displayValue))
+
         // Prevent from divide by 0
         if (calculator.displayValue === "Cannot divide by zero") {
             updateDisplay()
             resetCalculator()
             return;
         } else {
+            console.log(calculator)
             calculator.displayValue = `${parseFloat(Number(calculator.displayValue).toFixed(7))}`
             calculator.waitingForSecondOperand = false
             calculator.operator = null
@@ -158,6 +171,8 @@ const handleBackspace = () => {
         } else if (calculator.displayValue.length > 1) {
             calculator.displayValue = calculator.displayValue.slice(0, -1)
         }
+    } else if (calculator.shouldResetDisplay) {
+        displayOperand("reset")
     }
 }
 
