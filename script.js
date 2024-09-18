@@ -70,6 +70,7 @@ const displayOperand = (operate) => {
 
     if (operate === "reset") {
         displayOperation.textContent = ""
+        return
     }
 
     if (calculator.waitingForSecondOperand && operate !== "backspace") {
@@ -171,9 +172,9 @@ const handleBackspace = () => {
         } else if (calculator.displayValue.length > 1) {
             calculator.displayValue = calculator.displayValue.slice(0, -1)
         }
-    } else if (calculator.shouldResetDisplay) {
+    } else if (calculator.shouldResetDisplay && !calculator.waitingForSecondOperand) {
         displayOperand("reset")
-    }
+    } 
 }
 
 

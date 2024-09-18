@@ -38,7 +38,6 @@ h1, .cal-display {
     isolation: isolate;
 }
 
-
 main {
     display: flex;
     justify-content: center;
@@ -66,14 +65,12 @@ main {
     border-top-right-radius: 8px
 }
 
-
 .header {
     margin-bottom: 20px;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-family: "Lalezar", system-ui;
     font-weight: normal;
 }
-
 
 .display-container {
     padding: 15px;
@@ -85,8 +82,8 @@ main {
     align-items: end;
     border-radius: 6px;
     justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
-
 
 .operate-display {
     color: #D4D4DC;
@@ -95,7 +92,6 @@ main {
 .cal-display {
     font-size: 2rem;
 }
-
 
 .bottom-container {
     display: flex;
@@ -106,10 +102,9 @@ main {
     border-bottom-right-radius: 8px
 }
 
-
 .left-btn-container {
     display: grid;
-    width: 100%;
+    width: 75%;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-flow: row;
     transform: scaleY(-1); /* Flips the entire grid upside down */
@@ -134,8 +129,8 @@ main {
     justify-content: center;
     align-items: center;
     border: 2px #1D1E22 solid;
-}
 
+}
 
 .left-btn-container button:hover {
     cursor: pointer;
@@ -152,17 +147,8 @@ main {
     opacity: 0.9;
 }
 
-
 #reset-btn {
     grid-area: f;
-}
-
-.pressed-left {
-    background-color: lightblue !important;  /* Color for left-btn-container buttons */
-  }
-  
-.pressed-right {
-    background-color: rgb(255, 0, 0); /* Color for right-btn-container buttons */
 }
 
 .right-btn-container {
@@ -191,12 +177,10 @@ main {
     background-color: #e7c356 !important;;
 }
 
-
 .btn-container {
     display: flex;
     
 }
-
 
 footer {
     width: 100%;
@@ -216,4 +200,96 @@ footer p {
 
 footer img {
     margin-left: 8px;
+}
+
+@media (max-width: 520px) {
+    .cal-container {
+        width: 400px;
+        height: 550px;
+        touch-action: manipulation;
+    }
+
+    .left-btn-container button {
+        width: 80px;
+        height: 60px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.2rem;
+        border: 2px #1D1E22 solid;
+    }
+
+    .top-container {
+        padding: 15px;
+    }
+
+    .display-container {
+        width: 100%;
+    }
+
+    .right-btn-container {
+        margin-top: 3px;
+        grid-gap: 4px
+    }
+
+    .right-btn-container button {
+        width: 80px;
+        height: 60px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .cal-container {
+        width: 365px;
+        height: 550px;
+        padding: 12px;
+    }
+
+    .display-container {
+        height: 65px;
+    }
+
+    .cal-display {
+        font-size: 1.5rem;
+    }
+
+    .left-btn-container {
+        gap: 4px;
+        margin-right: 4px;
+    }
+
+    .left-btn-container button {
+        width: 70px;
+        height: 55px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.2rem;
+        border: 2px #1D1E22 solid;
+    }
+
+    .right-btn-container button {
+        width: 70px;
+        height: 55px;
+        font-size: 1.5rem;
+        color: black;
+    }
+
+    .right-btn-container img {
+        min-width: 36px;
+        max-height: 36px;
+    }
+
+    .right-btn-container {
+        margin-top: 4px;
+        grid-gap: 5px;
+        margin-left: 5px;
+    }
+
+    footer {
+        height: 35px;
+    }
+
+    footer p {
+        font-size: 0.75rem;
+    }
 }
