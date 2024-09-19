@@ -47,7 +47,7 @@ Bạn có thể thử bản demo trực tuyến [tại đây](https://gbalas855.
   - `+`, `-`, `*`, `/` để thực hiện các phép toán
   - Phím `Enter` để tính toán
   - Phím `Backspace` để xóa chữ số cuối cùng
-  - Phím `Escape` hoặc `C` để xóa tất cả
+  - Phím `Escape` để xóa tất cả
 
 ## Bài Học Rút Ra
 

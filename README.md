@@ -47,7 +47,7 @@ To run this project locally, follow these steps:
   - `+`, `-`, `*`, `/` for operations
   - `Enter` to calculate
   - `Backspace` to delete the last digit
-  - `Escape` or `C` to clear the input
+  - `Escape` to clear the input
 
 ## Lessons Learned
 

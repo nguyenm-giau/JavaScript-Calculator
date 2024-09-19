@@ -152,7 +152,6 @@ const handleEqualsInput = () => {
             resetCalculator()
             return;
         } else {
-            console.log(calculator)
             calculator.displayValue = `${parseFloat(Number(calculator.displayValue).toFixed(7))}`
             calculator.waitingForSecondOperand = false
             calculator.operator = null
@@ -197,7 +196,7 @@ const handleInput = (input) => {
         handleOperator(multiply)
     } else if (input === "/") {
         handleOperator(divide)
-    } else if (input === "Escape" || input === "reset" || input === "c" || input === "C") {
+    } else if (input === "Escape" || input === "reset") {
         resetCalculator()
         updateDisplay()
     }
@@ -268,7 +267,7 @@ const setupCalculatorEventListeners = () => {
         if (event.code === "Space") {
            return
         }
-  
+        
         handleInput(event.key)
         updateDisplay()
         applyPressStyle(event.key)
