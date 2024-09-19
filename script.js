@@ -197,7 +197,7 @@ const handleInput = (input) => {
         handleOperator(multiply)
     } else if (input === "/") {
         handleOperator(divide)
-    } else if (input === "Escape" || input === "reset") {
+    } else if (input === "Escape" || input === "reset" || input === "c" || input === "C") {
         resetCalculator()
         updateDisplay()
     }

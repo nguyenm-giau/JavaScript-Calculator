@@ -238,7 +238,7 @@ footer img {
     }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 390px) {
     .cal-container {
         width: 365px;
         height: 550px;
