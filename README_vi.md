@@ -19,7 +19,7 @@ Chào mừng bạn đến với dự án **Máy Tính JavaScript**! Đây là m�
 
 ## Bản Demo
 
-Bạn có thể thử bản demo trực tuyến [tại đây](https://gbalas855.github.io/JavaScript-Calculator/).
+Bạn có thể thử bản demo trực tuyến [tại đây](https://nguyenm-giau.github.io/JavaScript-Calculator/).
 
 ## Công Nghệ Sử Dụng
 
@@ -34,7 +34,7 @@ Bạn có thể thử bản demo trực tuyến [tại đây](https://gbalas855.
 1. Clone kho lưu trữ:
 
    ```bash
-   git clone https://github.com/Gbalas855/JavaScript-Calculator.git
+   git clone https://github.com/nguyenm-giau/JavaScript-Calculator.git
    ```
 
 2. Mở file `index.html` trong trình duyệt của bạn.

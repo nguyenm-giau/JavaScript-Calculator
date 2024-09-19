@@ -19,7 +19,7 @@ Welcome to the **JavaScript Calculator** project! This is a simple and functiona
 
 ## Demo
 
-You can try the live demo of the calculator [here](https://gbalas855.github.io/JavaScript-Calculator/).
+You can try the live demo of the calculator [here](https://nguyenm-giau.github.io/JavaScript-Calculator/).
 
 ## Technologies Used
 
@@ -34,7 +34,7 @@ To run this project locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Gbalas855/JavaScript-Calculator.git
+   git clone https://github.com/nguyenm-giau/JavaScript-Calculator.git
    ```
 
 2. Open `index.html` in your browser to see the calculator in action.
